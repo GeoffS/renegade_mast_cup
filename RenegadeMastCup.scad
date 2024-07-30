@@ -1,7 +1,5 @@
-use <torus.scad>
-//$fn=60;
-$fa=1;
-//$fs=1;
+include <../OpenSCADdesigns/MakeInclude.scad>
+use <../OpenSCADdesigns/torus.scad>
 
 in2mm = 25.4;
 
@@ -20,11 +18,13 @@ cupInsideCenterRadius = cupBottomEdgeRadius - bottomThickness;
 wallInsideBottomRadius = 3;
 wallID = 2.25*in2mm;
 
-difference()
+module mastCup()
 {
-  exterior();
-  interior();
-  //translate([-50, -100, -50]) cube([100, 100, 100]);
+difference()
+  {
+    exterior();
+    interior();
+  }
 }
 
 module interior()
@@ -87,4 +87,18 @@ module exterior()
     translate([0,0,-10+cupBottomEdgeRadius/2]) cylinder(d=cupBottomDiameter+cupBottomEdgeRadius, h=10);
   }
   translate([0,0,cupBottomEdgeRadius/2]) torus(cupBottomDiameter, cupBottomDiameter+2*cupBottomEdgeRadius);
+}
+
+module clip(d=0)
+{
+	//tc([-200, -400-d, -10], 400);
+}
+
+if(developmentRender)
+{
+	display() mastCup();
+}
+else
+{
+	mastCup();
 }
